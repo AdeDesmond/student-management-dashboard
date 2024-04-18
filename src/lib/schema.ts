@@ -10,9 +10,7 @@ export const TeacherFormSchema = z.object({
   city: z.string().min(1),
   state: z.string().min(1),
   postalCode: z.optional(z.string().min(1)),
-  className: z.string().min(1),
   classId: z.string().min(1),
-  classSize: z.string().min(1),
 });
 
 export const ClassFormSchema = z.object({

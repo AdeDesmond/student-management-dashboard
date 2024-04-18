@@ -1,8 +1,10 @@
 import React from "react";
 import { TeacherForm } from "~/components/teacher-form";
 import { cn } from "~/lib/utils";
+import { getClasses } from "~/server/queries";
 
-function TeacherPage() {
+async function TeacherPage() {
+  const classes = await getClasses();
   return (
     <div className="min-h-screen bg-purple-50/90 lg:p-6 2xl:p-4">
       <div className="mb-2 flex w-full items-center justify-between">
@@ -11,7 +13,7 @@ function TeacherPage() {
           <p>Hi Desmond! welcome to the Edu-Center Dashboard</p>
         </div>
         <div className="flex items-center justify-center gap-x-2">
-          <TeacherForm />
+          <TeacherForm classes={classes} />
         </div>
       </div>
       <div>

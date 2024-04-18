@@ -1,8 +1,7 @@
 import React from "react";
 import { ClassForm } from "~/components/class-form";
-import { cn } from "~/lib/utils";
 
-function ClassPage() {
+async function ClassPage() {
   return (
     <div className="min-h-screen bg-purple-50/90 lg:p-6 2xl:p-4">
       <div className="mb-2 flex w-full items-center justify-between">

@@ -3,13 +3,11 @@
 
 import { sql } from "drizzle-orm";
 import {
-  index,
   pgTableCreator,
   text,
   timestamp,
   varchar,
-  foreignKey,
-  AnyPgColumn,
+  type AnyPgColumn,
   integer,
 } from "drizzle-orm/pg-core";
 
@@ -23,20 +21,23 @@ export const createTable = pgTableCreator(
   (name) => `student-management-project_${name}`,
 );
 
-export const teachers = createTable(
-  "teachers",
-  {
-    id: text("cuid").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt"),
-  },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
+export const teachers = createTable("teachers", {
+  id: text("cuid").primaryKey(),
+  firtName: varchar("name", { length: 100 }),
+  lastName: varchar("last_name", { length: 100 }),
+  phoneNumber: varchar("phone_number", { length: 20 }),
+  emailAddress: varchar("email_address", { length: 100 }),
+  streetAddress: varchar("street_address", { length: 200 }),
+  streetAddressLine: varchar("street_address_line", { length: 200 }),
+  city: varchar("city", { length: 100 }),
+  state: varchar("state", { length: 100 }),
+  postalCode: varchar("postal_code", { length: 30 }),
+  classId: text("class_id").references((): AnyPgColumn => classes.id),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updatedAt"),
+});
 
 export const students = createTable("students", {
   id: text("cuid").primaryKey(),

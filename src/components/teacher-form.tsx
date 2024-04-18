@@ -22,7 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, Slash } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -32,8 +32,24 @@ import {
 } from "./ui/select";
 import { TeacherFormSchema } from "~/lib/schema";
 import { createTeacher } from "~/axios-calls";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export const TeacherForm = () => {
+interface TeacherFormProps {
+  classes:
+    | {
+        id: string;
+        name: string | null;
+        createdAt: Date;
+        updatedAt: Date | null;
+        teacherId: string | null;
+        studentId: string | null;
+        classSize: number | null;
+      }[]
+    | undefined;
+}
+
+export const TeacherForm = ({ classes }: TeacherFormProps) => {
   const form = useForm<z.infer<typeof TeacherFormSchema>>({
     resolver: zodResolver(TeacherFormSchema),
     defaultValues: {
@@ -46,19 +62,25 @@ export const TeacherForm = () => {
       city: "",
       state: "",
       postalCode: "",
-      className: "",
       classId: "",
-      classSize: "",
     },
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
   async function onSubmit(values: z.infer<typeof TeacherFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const test = await createTeacher(values);
-    console.log(test);
+    try {
+      setIsLoading(true);
+      await createTeacher(values);
+      router.refresh();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   //TODO add a male or female selection
@@ -217,7 +239,7 @@ export const TeacherForm = () => {
                     <div className="flex items-center gap-x-1">
                       <FormField
                         control={form.control}
-                        name="className"
+                        name="classId"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Class Name</FormLabel>
@@ -235,54 +257,23 @@ export const TeacherForm = () => {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem key="teachscience" value="science">
-                                  science
-                                </SelectItem>
-                                <SelectItem key="teacharts" value="arts">
-                                  arts
-                                </SelectItem>
-                                <SelectItem
-                                  key="teachcommmerce"
-                                  value="commerce"
-                                >
-                                  commerce
-                                </SelectItem>
+                                {classes?.map((cls) => (
+                                  <SelectItem key={cls.id} value={cls.id}>
+                                    {cls.name}
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={form.control}
-                        name="classId"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Class Id</FormLabel>
-                            <FormControl>
-                              <Input placeholder="classId" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                     </div>
-                    <FormField
-                      control={form.control}
-                      name="classSize"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Class size</FormLabel>
-                          <FormControl>
-                            <Input placeholder="class size" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
                 </div>
-                <Button type="submit">Submit</Button>
+                <Button disabled={isLoading} type="submit">
+                  Submit
+                </Button>
               </form>
             </Form>
           </DialogDescription>

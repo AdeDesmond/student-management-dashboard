@@ -29,4 +29,4 @@ export const SideBar = () => {
   );
 };
 
-// #8C4AF2    #6B56F6
+// #8C4AF2    #6b56f679

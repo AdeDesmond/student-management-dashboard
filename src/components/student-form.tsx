@@ -22,14 +22,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import { UserPlus2Icon } from "lucide-react";
+import { PlusIcon, UserPlus2Icon } from "lucide-react";
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
 });
 
-export const AdmissionForm = () => {
+export const StudentForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,8 +51,8 @@ export const AdmissionForm = () => {
           size="sm"
           className="flex items-center justify-center gap-x-1 bg-[#6B56F6]"
         >
-          <UserPlus2Icon />
-          New Admission
+          <PlusIcon className="h-4 w-4" />
+          Add Student
         </Button>
       </DialogTrigger>
       <DialogContent>

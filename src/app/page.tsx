@@ -11,7 +11,7 @@ const dashboardfont = localfont({
 export default function HomePage() {
   return (
     <main className="flex min-h-screen  w-full flex-col  bg-purple-50/90 text-black lg:p-6 2xl:p-4 ">
-      <div className="flex w-full items-center justify-between">
+      <div className="mb-2 flex w-full items-center justify-between">
         <div className="flex flex-col gap-2">
           <h2 className={cn(dashboardfont.className, "font-bold")}>
             Dashboard

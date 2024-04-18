@@ -5,9 +5,12 @@ import { sql } from "drizzle-orm";
 import {
   index,
   pgTableCreator,
-  serial,
+  text,
   timestamp,
   varchar,
+  foreignKey,
+  AnyPgColumn,
+  integer,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -16,12 +19,14 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `student-management-project_${name}`);
+export const createTable = pgTableCreator(
+  (name) => `student-management-project_${name}`,
+);
 
-export const posts = createTable(
-  "post",
+export const teachers = createTable(
+  "teachers",
   {
-    id: serial("id").primaryKey(),
+    id: text("cuid").primaryKey(),
     name: varchar("name", { length: 256 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -30,5 +35,26 @@ export const posts = createTable(
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
-  })
+  }),
 );
+
+export const students = createTable("students", {
+  id: text("cuid").primaryKey(),
+  name: varchar("name", { length: 120 }),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updatedAt"),
+});
+
+export const classes = createTable("classes", {
+  id: text("cuid").primaryKey(),
+  name: varchar("name", { length: 100 }),
+  teacherId: text("teacher_id").references(() => teachers.id),
+  studentId: text("student_id").references(() => students.id),
+  classSize: integer("class_size"),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updatedAt"),
+});

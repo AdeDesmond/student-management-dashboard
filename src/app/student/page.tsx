@@ -7,7 +7,7 @@ function StudentPage() {
   return (
     <div className="grid min-h-screen grid-cols-4 bg-purple-50/90 lg:p-6 2xl:p-4">
       <div className=" col-span-3  ">
-        <div className="flex  justify-between">
+        <div className="mb-3  flex justify-between">
           <div className="flex flex-col">
             <h2>Student Database</h2>
             <p>Hi Desmond welcome to the edu-center dashboard</p>

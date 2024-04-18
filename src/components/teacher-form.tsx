@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { type z } from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -23,24 +23,42 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { PlusIcon } from "lucide-react";
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { TeacherFormSchema } from "~/lib/schema";
+import { createTeacher } from "~/axios-calls";
 
-export const StudentForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+export const TeacherForm = () => {
+  const form = useForm<z.infer<typeof TeacherFormSchema>>({
+    resolver: zodResolver(TeacherFormSchema),
     defaultValues: {
-      username: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      emailAddress: "",
+      streetAddress: "",
+      streetAddressLine: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      className: "",
+      classId: "",
+      classSize: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof TeacherFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const test = await createTeacher(values);
+    console.log(test);
   }
 
   //TODO add a male or female selection
@@ -52,7 +70,7 @@ export const StudentForm = () => {
           className="flex items-center justify-center gap-x-1 bg-[#6B56F6]"
         >
           <PlusIcon className="h-4 w-4" />
-          Add Student
+          Add Teacher
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -62,16 +80,16 @@ export const StudentForm = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-2"
+                className="space-y-3"
               >
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="firstName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="shadcn" {...field} />
+                        <Input placeholder="firstname" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -79,12 +97,12 @@ export const StudentForm = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="lastName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="shadcn" {...field} />
+                        <Input placeholder="lastname" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -93,12 +111,12 @@ export const StudentForm = () => {
                 <div className="flex w-full items-center gap-x-3">
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="phoneNumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
-                          <Input placeholder="shadcn" {...field} />
+                          <Input placeholder="phone number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -106,12 +124,12 @@ export const StudentForm = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="emailAddress"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email Address</FormLabel>
                         <FormControl>
-                          <Input placeholder="shadcn" {...field} />
+                          <Input placeholder="email address" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -122,12 +140,12 @@ export const StudentForm = () => {
                   <h2 className="mb-2 font-bold text-black">Mailing Address</h2>
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="streetAddress"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Street Address</FormLabel>
                         <FormControl>
-                          <Input placeholder="shadcn" {...field} />
+                          <Input placeholder="street address" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -136,12 +154,12 @@ export const StudentForm = () => {
 
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="streetAddressLine"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Street Address line 2</FormLabel>
                         <FormControl>
-                          <Input placeholder="shadcn" {...field} />
+                          <Input placeholder="street address line" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -150,12 +168,12 @@ export const StudentForm = () => {
                   <div className="flex gap-x-3 ">
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="city"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>City</FormLabel>
                           <FormControl>
-                            <Input placeholder="shadcn" {...field} />
+                            <Input placeholder="city" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -164,12 +182,12 @@ export const StudentForm = () => {
 
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="state"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>State/Province</FormLabel>
                           <FormControl>
-                            <Input placeholder="shadcn" {...field} />
+                            <Input placeholder="state" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -179,12 +197,12 @@ export const StudentForm = () => {
 
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="postalCode"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Postal/Zip-code</FormLabel>
                         <FormControl>
-                          <Input placeholder="shadcn" {...field} />
+                          <Input placeholder="postal code" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -193,31 +211,56 @@ export const StudentForm = () => {
                 </div>
                 <div>
                   <h2 className="mb-2 font-bold text-black">
-                    Emergency Contact
+                    Class Information
                   </h2>
                   <div className="flex items-center gap-x-1">
                     <div className="flex items-center gap-x-1">
                       <FormField
                         control={form.control}
-                        name="username"
+                        name="className"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>FirstName</FormLabel>
-                            <FormControl>
-                              <Input placeholder="firstname" {...field} />
-                            </FormControl>
+                            <FormLabel>Class Name</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue
+                                    defaultValue={field.value}
+                                    placeholder="Select a class"
+                                  />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem key="teachscience" value="science">
+                                  science
+                                </SelectItem>
+                                <SelectItem key="teacharts" value="arts">
+                                  arts
+                                </SelectItem>
+                                <SelectItem
+                                  key="teachcommmerce"
+                                  value="commerce"
+                                >
+                                  commerce
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
                       <FormField
                         control={form.control}
-                        name="username"
+                        name="classId"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>LastName</FormLabel>
+                            <FormLabel>Class Id</FormLabel>
                             <FormControl>
-                              <Input placeholder="lastname" {...field} />
+                              <Input placeholder="classId" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -226,47 +269,18 @@ export const StudentForm = () => {
                     </div>
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="classSize"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Relationship</FormLabel>
+                          <FormLabel>Class size</FormLabel>
                           <FormControl>
-                            <Input placeholder="relationship" {...field} />
+                            <Input placeholder="class size" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                </div>
-                <div className="flex gap-x-3">
-                  <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone Number</FormLabel>
-                        <FormControl>
-                          <Input placeholder="shadcn" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address</FormLabel>
-                        <FormControl>
-                          <Input placeholder="shadcn" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                 </div>
                 <Button type="submit">Submit</Button>
               </form>

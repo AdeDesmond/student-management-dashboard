@@ -7,6 +7,7 @@ import {
   Calendar,
   MessageSquare,
   BellIcon,
+  SchoolIcon,
 } from "lucide-react";
 
 export const paths = [
@@ -25,6 +26,11 @@ export const paths = [
     path: "/teacher",
     label: "Teacher",
     icon: <Users2Icon className="h-4 w-4" />,
+  },
+  {
+    path: "/class",
+    label: "Class",
+    icon: <SchoolIcon className="h-4 w-4" />,
   },
   {
     path: "/events",

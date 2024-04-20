@@ -16,24 +16,28 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body
         className={cn(
           siteFont.className,
-          "bg-gradient-to-b from-[#2e026d] to-[#15162c]",
+          "flex items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] ",
         )}
       >
-        <div className="mx-auto flex w-[80%] ">
+        <main className="mx-auto flex w-[80%]  overflow-hidden ">
           <SideBar />
           <div className="grow">
             <Header />
             {children}
           </div>
-        </div>
+        </main>
+        {modal}
+        <div id="modal-root" />
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   pgTableCreator,
   text,
@@ -22,15 +22,15 @@ export const createTable = pgTableCreator(
 );
 
 export const teachers = createTable("teachers", {
-  id: text("cuid").primaryKey(),
-  firtName: varchar("name", { length: 100 }),
-  lastName: varchar("last_name", { length: 100 }),
-  phoneNumber: varchar("phone_number", { length: 20 }),
-  emailAddress: varchar("email_address", { length: 100 }),
-  streetAddress: varchar("street_address", { length: 200 }),
+  id: text("cuid").primaryKey().notNull(),
+  firtName: varchar("name", { length: 100 }).notNull(),
+  lastName: varchar("last_name", { length: 100 }).notNull(),
+  phoneNumber: varchar("phone_number", { length: 20 }).notNull(),
+  emailAddress: varchar("email_address", { length: 100 }).notNull(),
+  streetAddress: varchar("street_address", { length: 200 }).notNull(),
   streetAddressLine: varchar("street_address_line", { length: 200 }),
-  city: varchar("city", { length: 100 }),
-  state: varchar("state", { length: 100 }),
+  city: varchar("city", { length: 100 }).notNull(),
+  state: varchar("state", { length: 100 }).notNull(),
   postalCode: varchar("postal_code", { length: 30 }),
   classId: text("class_id").references((): AnyPgColumn => classes.id),
   createdAt: timestamp("created_at")
@@ -38,6 +38,13 @@ export const teachers = createTable("teachers", {
     .notNull(),
   updatedAt: timestamp("updatedAt"),
 });
+
+export const teacherRelations = relations(teachers, ({ one }) => ({
+  classes: one(classes, {
+    fields: [teachers.classId],
+    references: [classes.id],
+  }),
+}));
 
 export const students = createTable("students", {
   id: text("cuid").primaryKey(),
@@ -49,8 +56,8 @@ export const students = createTable("students", {
 });
 
 export const classes = createTable("classes", {
-  id: text("cuid").primaryKey(),
-  name: varchar("name", { length: 100 }),
+  id: text("cuid").primaryKey().notNull(),
+  name: varchar("name", { length: 100 }).notNull(),
   teacherId: text("teacher_id").references(() => teachers.id),
   studentId: text("student_id").references(() => students.id),
   classSize: integer("class_size"),

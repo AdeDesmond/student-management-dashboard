@@ -70,7 +70,6 @@ export const TeacherForm = ({ classes }: TeacherFormProps) => {
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof TeacherFormSchema>) {
-    console.log(values);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     try {
       setIsLoading(true);
@@ -97,7 +96,9 @@ export const TeacherForm = ({ classes }: TeacherFormProps) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle className="text-lg font-bold">
+            Create a new teacher
+          </DialogTitle>
           <DialogDescription>
             <Form {...form}>
               <form

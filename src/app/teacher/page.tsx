@@ -13,6 +13,7 @@ const teacherFont = localfont({
 async function TeacherPage() {
   const classes = await getClasses();
   const teachers = (await getTeachers()) as TeacherType[];
+
   return (
     <div className="min-h-screen bg-purple-50/90 lg:p-6 2xl:p-4">
       <div className="mb-2 flex w-full items-center justify-between">

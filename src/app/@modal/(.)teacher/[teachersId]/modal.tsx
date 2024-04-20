@@ -14,9 +14,10 @@ import { Button } from "~/components/ui/button";
 
 interface ModalProps {
   children: React.ReactNode;
+  title?: string;
 }
 
-export function Modal({ children }: ModalProps) {
+export function Modal({ children, title }: ModalProps) {
   const router = useRouter();
   const dialogRef = useRef<ElementRef<"dialog">>(null);
 
@@ -40,7 +41,9 @@ export function Modal({ children }: ModalProps) {
       }}
     >
       <DialogContent>
-        <DialogTitle>Mode details for teachers</DialogTitle>
+        <DialogTitle className="text-muted-foreground">
+          Details about <span className="font-bold text-black">{title}</span>
+        </DialogTitle>
         <DialogDescription>There will be a component here</DialogDescription>
         {children}
       </DialogContent>

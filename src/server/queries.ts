@@ -26,3 +26,20 @@ export const getTeachers = async () => {
     console.log(err);
   }
 };
+
+export const getTeacher = async (teacherId: string) => {
+  try {
+    const teacher = await db.query.teachers.findFirst({
+      with: {
+        classes: true,
+      },
+      where: (model, { eq }) => eq(model.id, teacherId),
+    });
+    if (!teacher) {
+      console.log("no teacher found");
+    }
+    return teacher;
+  } catch (err) {
+    console.log(err);
+  }
+};

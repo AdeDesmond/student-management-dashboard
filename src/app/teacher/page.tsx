@@ -4,6 +4,7 @@ import { cn } from "~/lib/utils";
 import { getClasses, getTeachers } from "~/server/queries";
 import { TeacherClient } from "./_components/teacher-client";
 import localfont from "next/font/local";
+import { type TeacherType } from "./_components/column";
 
 const teacherFont = localfont({
   src: "../../../public/notosan/static/NotoSans-Bold.ttf",
@@ -11,7 +12,7 @@ const teacherFont = localfont({
 
 async function TeacherPage() {
   const classes = await getClasses();
-  const teachers = await getTeachers();
+  const teachers = (await getTeachers()) as TeacherType[];
   return (
     <div className="min-h-screen bg-purple-50/90 lg:p-6 2xl:p-4">
       <div className="mb-2 flex w-full items-center justify-between">

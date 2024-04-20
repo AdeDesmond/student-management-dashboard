@@ -24,8 +24,8 @@ import { useState } from "react";
 import { Input } from "./ui/input";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[] | undefined;
+  columns: ColumnDef<TData | undefined, TValue | undefined>[];
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -34,6 +34,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
   const table = useReactTable({
     data,
     columns,

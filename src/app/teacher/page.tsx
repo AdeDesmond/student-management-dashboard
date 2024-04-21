@@ -19,7 +19,7 @@ async function TeacherPage() {
       <div className="mb-2 flex w-full items-center justify-between">
         <div className="flex flex-col gap-2">
           <h2 className={cn(teacherFont.className, "font-bold")}>Teacher</h2>
-          <p>Hi Desmond! welcome to the Edu-Center Dashboard</p>
+          <p>Hi Desmond! welcome to the Edu-Center Dashboard.</p>
         </div>
         <div className="flex items-center justify-center gap-x-2">
           <TeacherForm classes={classes} />

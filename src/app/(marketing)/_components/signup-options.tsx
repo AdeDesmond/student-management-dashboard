@@ -1,14 +1,14 @@
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import { ShowOptions } from "./show-options";
+import Image from "next/image";
 
 export const SignUpOptions = () => {
   return (
@@ -18,16 +18,29 @@ export const SignUpOptions = () => {
           Sign up
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex flex-col items-center justify-center">
         <DialogHeader>
-          <DialogTitle>Sign up for a better experience</DialogTitle>
-          <DialogDescription>forms will be here</DialogDescription>
+          <DialogTitle>
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                src={"/svgs/signup.svg"}
+                alt="signup"
+                width={100}
+                height={100}
+              />
+              <p className="mb-2 text-lg font-bold">
+                Sign up for a better experience
+              </p>
+            </div>
+          </DialogTitle>
+          <DialogDescription>
+            <ShowOptions
+              path="/sign-up"
+              content="Please confirm your status and proceed to signup"
+              label="Sign up"
+            />
+          </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button size="sm">cancel</Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

@@ -4,11 +4,11 @@ import { cn } from "~/lib/utils";
 import { AdmissionForm } from "~/components/admission-form";
 
 const dashboardfont = localfont({
-  src: "../../public/notosan/static/NotoSans-Bold.ttf",
+  src: "../../../public/notosan/static/NotoSans-Bold.ttf",
 });
 
 //TODO think about the height and how to fixed that ont the student grades div
-export default function HomePage() {
+export default function DashboardPage() {
   return (
     <main className="flex min-h-screen  w-full flex-col  bg-purple-50/90 text-black lg:p-6 2xl:p-4 ">
       <div className="mb-2 flex w-full items-center justify-between">

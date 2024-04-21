@@ -12,7 +12,7 @@ import {
 
 export const paths = [
   {
-    path: "/",
+    path: "/dashboard",
     label: "Dashboard",
     icon: <Grid2x2Icon className="h-4 w-4" />,
   },

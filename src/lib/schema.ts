@@ -17,3 +17,21 @@ export const ClassFormSchema = z.object({
   className: z.string().min(1),
   classSize: z.string().min(1),
 });
+
+export const SignUpSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(1),
+    passwordConfirm: z.string().min(1),
+  })
+  .refine(
+    (data) => {
+      if (data.password !== data.passwordConfirm) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Password must be the same",
+    },
+  );

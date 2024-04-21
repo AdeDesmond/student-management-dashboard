@@ -1,5 +1,4 @@
 import { cn } from "~/lib/utils";
-import { ClerkProvider } from "@clerk/nextjs";
 import "~/styles/globals.css";
 import localfont from "next/font/local";
 import { SideBar } from "~/components/side-bar";
@@ -23,25 +22,23 @@ export default function RootLayout({
   modal: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={cn(
-            siteFont.className,
-            "flex items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] ",
-          )}
-        >
-          <main className="mx-auto flex w-[80%]  overflow-hidden ">
-            <SideBar />
-            <div className="grow">
-              <Header />
-              {children}
-            </div>
-          </main>
-          {modal}
-          <div id="modal-root" />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body
+        className={cn(
+          siteFont.className,
+          "flex items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] ",
+        )}
+      >
+        <main className="mx-auto flex w-[80%]  overflow-hidden ">
+          <SideBar />
+          <div className="grow">
+            <Header />
+            {children}
+          </div>
+        </main>
+        {modal}
+        <div id="modal-root" />
+      </body>
+    </html>
   );
 }

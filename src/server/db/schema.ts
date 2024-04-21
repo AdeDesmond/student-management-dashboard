@@ -9,6 +9,7 @@ import {
   varchar,
   type AnyPgColumn,
   integer,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -33,6 +34,8 @@ export const teachers = createTable("teachers", {
   state: varchar("state", { length: 100 }).notNull(),
   postalCode: varchar("postal_code", { length: 30 }),
   classId: text("class_id").references((): AnyPgColumn => classes.id),
+  password: varchar("password"),
+  isVerified: boolean("isVerified"),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
@@ -49,6 +52,9 @@ export const teacherRelations = relations(teachers, ({ one }) => ({
 export const students = createTable("students", {
   id: text("cuid").primaryKey(),
   name: varchar("name", { length: 120 }),
+  emailAddess: varchar("emailAddress", { length: 100 }).notNull(),
+  isVerified: boolean("isVerified"),
+  password: varchar("password"),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
